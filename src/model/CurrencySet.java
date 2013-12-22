@@ -1,4 +1,4 @@
-package moneycalculator;
+package model;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -22,6 +22,15 @@ public class CurrencySet extends HashSet <Currency> {
         return null;
         
     }
+    private Currency[] currencyList(String string) {
+        ArrayList<Currency> list = new ArrayList<>();
+        for (Currency currency : this) {
+            if (currency.getName().toLowerCase().contains(string.toLowerCase()))
+                list.add(currency);
+        }
+        return list.toArray(new Currency[0]);
+    }
+
     public Currency[] search (String token){
         ArrayList <Currency> list=new ArrayList<>();
         for (Currency currency :this)

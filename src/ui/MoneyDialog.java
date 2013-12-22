@@ -1,13 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
-/**
- *
- * @author maría
- */
-public class MoneyDialog {
-    
+import model.Money;
+
+public interface MoneyDialog {
+
+    public Money getMoney();
+
+    public void execute();
 }
