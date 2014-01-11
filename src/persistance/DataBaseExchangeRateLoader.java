@@ -26,7 +26,7 @@ public class DataBaseExchangeRateLoader implements ExchangeRateLoader {
         try {
             createConection();
             createStatement();
-            createResultSet(date, from);
+            createResultSet(date, to);
             while (resultSet.next()) {
                 if (resultSet.getString("DIVISA").equalsIgnoreCase(to.getCode().toString())) {
                     return new ExchangeRate().load(from, to, Number.valueOf(resultSet.getString("CAMBIO")));
