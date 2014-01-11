@@ -25,9 +25,10 @@ public class DataBaseExchangeRateLoader implements ExchangeRateLoader {
     public ExchangeRate load(Currency from, Currency to, Date date) {
         try {
             createConection();
-            createStatement(date);
+            createStatement();
+            createResultSet(date, from);
             while (resultSet.next()) {
-                if (resultSet.getString("DIVISA").equalsIgnoreCase(to.toString())) {                    
+                if (resultSet.getString("DIVISA").equalsIgnoreCase(to.getCode().toString())) {
                     return new ExchangeRate().load(from, to, Number.valueOf(resultSet.getString("CAMBIO")));
                 }
                 System.out.print(resultSet.getString("DIVISA") + " ");
@@ -38,7 +39,7 @@ public class DataBaseExchangeRateLoader implements ExchangeRateLoader {
             Logger.getLogger(DataBaseExchangeRateLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-     return null;
+        return null;
     }
 
     @Override
@@ -46,8 +47,9 @@ public class DataBaseExchangeRateLoader implements ExchangeRateLoader {
         try {
             createConection();
             createStatement();
+            createresultSet(to);
             while (resultSet.next()) {
-                if (resultSet.getString("DIVISA").equalsIgnoreCase(to.toString())) {
+                if (resultSet.getString("DIVISA").equalsIgnoreCase(to.getCode().toString())) {
                     return new ExchangeRate().load(from, to, Number.valueOf(resultSet.getString("CAMBIO")));
                 }
                 System.out.print(resultSet.getString("DIVISA") + " ");
@@ -69,18 +71,17 @@ public class DataBaseExchangeRateLoader implements ExchangeRateLoader {
     private void createStatement() {
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM CAMBIO_EUR_A");
+
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseCurrencySetLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void createStatement(Date date) {
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM CAMBIO_EUR_A WHERE alta="+date);
-        } catch (SQLException ex) {
-            Logger.getLogger(DataBaseCurrencySetLoader.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void createResultSet(Date date, Currency to) throws SQLException {
+        resultSet = statement.executeQuery("SELECT * FROM CAMBIO_EUR_A WHERE DIVISA = '" + to.getCode() + "'" + "and" + "WHERE alta=" + date);
+    }
+
+    private void createresultSet(Currency to) throws SQLException {
+        resultSet = statement.executeQuery("SELECT * FROM CAMBIO_EUR_A WHERE DIVISA = '" + to.getCode() + "'");
     }
 }
