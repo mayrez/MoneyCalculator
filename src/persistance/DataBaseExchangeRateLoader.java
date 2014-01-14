@@ -14,17 +14,18 @@ import model.Number;
 
 public class DataBaseExchangeRateLoader implements ExchangeRateLoader {
 
-    private static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-    private static final String USR = "system";
-    private static final String PASSWD = "orcl";
+ 
     private Statement statement;
     private Connection connection;
     private ResultSet resultSet;
 
+    public DataBaseExchangeRateLoader() {
+      
+    }
+
     @Override
     public ExchangeRate load(Currency from, Currency to, Date date) {
         try {
-            createConection();
             createStatement();
             createResultSet(date, to);
             while (resultSet.next()) {
@@ -45,7 +46,7 @@ public class DataBaseExchangeRateLoader implements ExchangeRateLoader {
     @Override
     public ExchangeRate load(Currency from, Currency to) {
         try {
-            createConection();
+            createConnection();
             createStatement();
             createresultSet(to);
             while (resultSet.next()) {
@@ -61,13 +62,14 @@ public class DataBaseExchangeRateLoader implements ExchangeRateLoader {
         }
         return null;
     }
-
-    private void createConection() throws SQLException {
+private Connection createConnection() throws SQLException {
+       
         DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
-        connection = DriverManager.getConnection(URL, USR, PASSWD);
+        connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "system", "system");
+
+        return connection;
 
     }
-
     private void createStatement() {
         try {
             statement = connection.createStatement();
