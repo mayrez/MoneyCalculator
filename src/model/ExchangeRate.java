@@ -16,8 +16,10 @@ public class ExchangeRate {
         this.rate = rate;
     }
 
-    public ExchangeRate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ExchangeRate(Currency from, Currency to, Number rate) {
+        this.from = from;
+        this.to = to;
+        this.rate = rate;
     }
 
     public ExchangeRate load(Date date, Currency from, Currency to, Number rate) {

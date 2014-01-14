@@ -108,4 +108,15 @@ public class Number {
         }
         return true;
     }
+
+    public Number divide(double exchangeRate) {
+        return divide(new Number(exchangeRate));
+    }
+
+    public Number divide(Number exchangeRate) {
+        this.numerator *= exchangeRate.denominator;
+        this.denominator *= exchangeRate.numerator;
+        reduce();
+        return new Number(this.numerator, this.denominator);
+    }
 }

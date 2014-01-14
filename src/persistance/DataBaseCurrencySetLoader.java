@@ -25,7 +25,7 @@ public class DataBaseCurrencySetLoader implements CurrencySetLoader {
         try {
             createConnection();
             createResultSet();
-            set.add(new Currency("EUR", "",""));
+            set.add(new Currency("EUR", "", ""));
             while (resultSet.next()) {
                 set.add(new Currency("DIVISA", "", ""));
             }
