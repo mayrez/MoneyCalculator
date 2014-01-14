@@ -80,7 +80,7 @@ public class Number {
         }
     }
 
-    public static Number multiply(Number number1, Number number2) {
+    public static Number multiplicate(Number number1, Number number2) {
         Number result;
         result = new Number(number1.numerator * number2.numerator, number1.denominator * number2.denominator);
         return result;
